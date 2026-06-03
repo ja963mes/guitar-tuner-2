@@ -2,7 +2,6 @@ import numpy as np
 import sys
 from audio_engine import start_stream, stop_stream, AUDIO_QUEUE, callback_count
 import dsp_processor as  dsp
-from config import SAMPLE_RATE
 import threading
 
 detected_data = {
@@ -14,10 +13,14 @@ detected_data = {
 
 print("Starting audio stream...", flush=True)
 stream = start_stream()
+print(stream.samplerate)
 print("Audio stream started. Make noise near the microphone...", flush=True)
+
+dsp.configure(stream.samplerate)
 
 def audio_processing_loop():
     count = 0
+    rate = stream.samplerate
     while True:
         if not AUDIO_QUEUE.empty():
             data = AUDIO_QUEUE.get()
@@ -36,7 +39,7 @@ def audio_processing_loop():
             elif min_index <= 0:
                 print(f"[{count}] Invalid min_index: {min_index}")
             else:
-                detected_data["frequency"] = SAMPLE_RATE / min_index
+                detected_data["frequency"] = rate / min_index
                 print(f"[{count}] Detected frequency: {detected_data['frequency']:.2f} Hz")
 
 

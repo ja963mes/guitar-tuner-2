@@ -1,9 +1,11 @@
 import scipy.signal as signal
 import numpy as np
-from config import SAMPLE_RATE
+b, a = None, None
 
-# Create filter kernel once at module level (not recreated each frame for efficiency)
-b, a = signal.butter(4, 2000 / (SAMPLE_RATE / 2), 'low')
+# Create filter kernel once at module level (not recreated each frame for efficiency)\
+def configure(rate):
+    global b, a
+    b, a = signal.butter(4, 2000 / (rate / 2), 'low')
 
 def preprocess_buffer(data):
     filtered_data = signal.filtfilt(b, a, data)

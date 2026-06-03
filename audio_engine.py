@@ -22,7 +22,7 @@ def audio_callback(indata, frames, time, status):
 
 
 def start_stream():
-    device_id = 15
+    device_id = 22
     device_info = sounddevice.query_devices(device_id)
     print(f"[INFO] Device info for device {device_id}: {device_info}", flush=True)
     

@@ -1,0 +1,15 @@
+# Python bytecode
+__pycache__/
+*.pyc
+
+# Virtual environment (was committed to the repo by mistake)
+Lib/
+Scripts/
+Include/
+pyvenv.cfg
+
+# Word temp/lock files
+~$*.docx
+
+# Local notes/summaries (not for the repo)
+summerizes/
