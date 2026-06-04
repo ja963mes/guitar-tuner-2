@@ -41,6 +41,10 @@ def audio_processing_loop():
             else:
                 detected_data["frequency"] = rate / min_index
                 print(f"[{count}] Detected frequency: {detected_data['frequency']:.2f} Hz")
+                note, cents_off = dsp.frequency_to_note_cent(detected_data['frequency'])
+                detected_data["note"] = note
+                detected_data["cents_off"] = cents_off
+                print(f"[{count}] Detected note: {note}, Cents off: {cents_off:.2f}", flush=True)
 
 
 

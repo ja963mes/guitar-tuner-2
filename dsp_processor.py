@@ -38,3 +38,14 @@ def peak_valley_detection(cmnd):
         if cmnd[i] < cmnd[min_index]:
             min_index = i
     return min_index
+
+def frequency_to_note_cent(freq):
+    A4 = 440.0
+    if freq <= 0:
+        return None, None
+    semitones_from_A4 = 12 * np.log2(freq / A4)
+    note_index = int(round(semitones_from_A4)) % 12
+    cents_off = (semitones_from_A4 - round(semitones_from_A4)) * 100
+    note_names = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#']
+    note_name = note_names[note_index]
+    return note_name, cents_off
