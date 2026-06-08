@@ -7,6 +7,18 @@ import time
 AUDIO_QUEUE = queue.Queue(maxsize=1)
 callback_count = 0
 
+def find_input_device():
+    try:
+        query = sounddevice.query_devices(kind='input')
+        return query['index']
+    except sounddevice.PortAudioError:
+        query = sounddevice.query_devices()
+        for device in query:
+            if(device['max_input_channels'] > 0):
+                return device['index']
+        raise RuntimeError("No input device found")
+    
+
 def audio_callback(indata, frames, time, status):
     global callback_count
     callback_count += 1
@@ -22,9 +34,7 @@ def audio_callback(indata, frames, time, status):
 
 
 def start_stream():
-    device_id = 22
-    device_info = sounddevice.query_devices(device_id)
-    print(f"[INFO] Device info for device {device_id}: {device_info}", flush=True)
+    device_id = find_input_device()
     
     # Find a supported sample rate
     supported_rates = [44100, 48000, 22050, 16000, 8000]

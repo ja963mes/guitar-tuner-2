@@ -1,6 +1,7 @@
 import numpy as np
 import sys
 from audio_engine import start_stream, stop_stream, AUDIO_QUEUE, callback_count
+from config import RMS_THRESHOLD
 import dsp_processor as  dsp
 import threading
 
@@ -27,6 +28,8 @@ def audio_processing_loop():
             data = data.flatten()  # Convert (2048, 1) to (2048,)
             print(f"Data shape: {data.shape}, Data size: {data.size}")  # Debug line
             rms = np.sqrt(np.mean(data**2))
+            if rms < RMS_THRESHOLD:
+                continue 
             count += 1
             window_data = dsp.preprocess_buffer(data)
             print(f"[{count}] RMS Level: {rms:.6f}", flush=True)
