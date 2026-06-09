@@ -52,7 +52,7 @@ def start_stream():
     
     if sample_rate is None:
         # Fallback: use device's default sample rate
-        sample_rate = int(device_info['default_samplerate'])
+        sample_rate = sounddevice.query_devices(device_id, kind='input')['default_samplerate']
         print(f"[INFO] Using device default sample rate: {sample_rate} Hz", flush=True)
     
     print(f"[INFO] Creating InputStream with device={device_id} (Stereo Mix), sample_rate={sample_rate}", flush=True)

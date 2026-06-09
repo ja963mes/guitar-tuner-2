@@ -24,7 +24,7 @@ def calculate_cumulative_mean_normalized_difference_function(df):
     return cmnd
 
 def peak_valley_detection(cmnd):
-    first_threshold = 0.1
+    first_threshold = 0.15
     index = None
     for i in range(1, len(cmnd)-1):
         if cmnd[i] < first_threshold:

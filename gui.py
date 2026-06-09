@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+import numpy as np
 import dsp_processor
 from main import detected_data
 
@@ -19,7 +20,7 @@ right_cents_value = window.create_text(380, 140, text="1", font=("Arial", 16))
 
 
 window.create_line(0, 100, 400, 100, fill="black")
-window.create_polygon(200, 150, 190, 500, 210, 500, fill="black", width=3)
+needle = window.create_polygon(200, 150, 190, 500, 210, 500, fill="black", width=3)
 window.create_arc(20, 150, 380, 230, start=180, extent=-180, fill="", style=ARC, width=2)
 window.create_oval(190, 490, 210, 510, fill="black")
 
@@ -37,6 +38,11 @@ def read_latest_freq():
         window.itemconfig(Cord_label, text="--")
     else:
         window.itemconfig(Cord_label, text=f"{note}, {cents_off:.2f} cents")
+        angle = 270 + (cents_off / 50) * 90
+        theta = np.deg2rad(angle)
+        tip_x = 200 + 300 * np.cos(theta)
+        tip_y = 190 + 300 * np.sin(theta)
+        window.coords(needle, tip_x, tip_y, 190, 500, 210, 500)
 
     root.after(50, read_latest_freq)
 
